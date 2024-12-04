@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,tr,td
+        {
+            border: 1px solid black;
+            background-color: white;
+        }
+        #gamebox
+        {
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
+        }
+        #gamebox tr
+        {
+            width: 300px;
+            height: 0px;
+        }
+        #gamebox tr td
+        {
+            width: 100px;
+            height: 100px;
+        }
+        #gamebox,tr,td
+        {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        td img
+        {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+    <script>
+        var turn=0;        //0==o 1==x
+        var state=[2,2,2,2,2,2,2,2,2]; //2==blank
+        var winPosition=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+        var gamestatus=true;
+        function ontap(e,i)     // e ==this , i==index  0.....
+        {
+            if(state[i]==2 && gamestatus==true)
+            {
+                if(turn==0)
+                {
+                    e.innerHTML="<img src='o.jpg' />";
+                    var audio = new Audio("m1.mp3");
+                    audio.play;
+                    turn=1;
+                    state[i]=0;
+                    document.getElementById("hint").innerHTML="X Player Turn";
+                }
+                else
+                {
+                    e.innerHTML="<img src='x.jpg'>";
+                    var audio = new Audio("m1.mp3");
+                    audio.play;
+                    turn=0;
+                    state[i]=1;
+                    document.getElementById("hint").innerHTML="O Player Turn";
+                }
+            }
+            var Winner= checkwin();
+            if(Winner==0)
+            {
+                document.getElementById("hint").innerHTML="O Player Won";
+            }
+            else if(Winner==1)
+            {
+                document.getElementById("hint").innerHTML="X Player Won";
+            }
+        }
+        //check win function
+        function checkwin()
+        {
+            var win=2;
+            for(x of winPosition)
+            {
+                if(state[x[0]]==state[x[1]] && state[x[1]]==state[x[2]] && state[x[0]]!=2)
+                {
+                    win = state[x[0]];
+                    gamestatus=false;
+                    break;
+                }
+            }
+            return win;
+        }
+    </script>
+</head>
+<body>
+    <center>
+        <h1>Tic Tac Toe Game</h1>
+        <h2 id="hint">O Player Turn</h2>
+    </center>
+    <table id="gamebox">
+       <tr>
+        <td onclick="ontap(this,0)"></td>
+        <td onclick="ontap(this,1)"></td>
+        <td onclick="ontap(this,2)"></td>
+       </tr>
+       <tr></tr>
+        <td onclick="ontap(this,3)"></td>
+        <td onclick="ontap(this,4)"></td>
+        <td onclick="ontap(this,5)"></td>
+       </tr>
+       <tr></tr>
+        <td onclick="ontap(this,6)"></td>
+        <td onclick="ontap(this,7)"></td>
+        <td onclick="ontap(this,8)"></td>
+       </tr>
+    </table>    
+</body>
+</html>
